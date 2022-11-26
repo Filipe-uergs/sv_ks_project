@@ -54,7 +54,7 @@ always_ff @(posedge clk) begin : ir_ctrl
         instruction <= data_in;
 end 
 
-always_ff @(posedge clk) begin : pc_ctrl
+always_ff @(posedge clk or negedge rst_n) begin : pc_ctrl
     if(!rst_n) begin
         program_counter <= 'd0;
     end
