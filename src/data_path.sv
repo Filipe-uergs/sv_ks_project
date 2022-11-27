@@ -29,10 +29,10 @@ logic [15:0] bus_a;
 logic [15:0] bus_b;
 logic [15:0] bus_c;
 
-logic [15:0] R0;
-logic [15:0] R1;
-logic [15:0] R2;
-logic [15:0] R3;
+logic [15:0] R0 = 'd0;
+logic [15:0] R1 = 'd0;
+logic [15:0] R2 = 'd0;
+logic [15:0] R3 = 'd0;
 
 logic [15:0] instruction;
 
@@ -54,7 +54,7 @@ always_ff @(posedge clk) begin : ir_ctrl
         instruction <= data_in;
 end 
 
-always_ff @(posedge clk) begin : pc_ctrl
+always_ff @(posedge clk or negedge rst_n) begin : pc_ctrl
     if(!rst_n) begin
         program_counter <= 'd0;
     end
@@ -67,7 +67,7 @@ always_ff @(posedge clk) begin : pc_ctrl
     end
 end 
 
-assign ram_addr = (addr_sel?mem_addr:program_counter);//mux_addr_sel
+assign ram_addr = (addr_sel?mem_addr:program_counter);//mux_addr_sel - mandando mem com sinal pra ajudar no control
 
 assign bus_c = (c_sel?data_in:alu_out);//mux_c_sel
 
@@ -232,9 +232,11 @@ always_comb begin : ula_ctrl
             sov_f = ov_f ^ carry_in_ultimo_bit;
         end
     endcase
-    assign zero_f = ~|(alu_out);
-    assign neg_f = alu_out[15];
+    
 end
+
+assign zero_f = ~|(alu_out);
+assign neg_f = alu_out[15];
 
 always_ff @(posedge clk) begin //flags
     if(flags_reg_enable) begin
