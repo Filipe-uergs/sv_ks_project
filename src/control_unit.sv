@@ -104,7 +104,7 @@ always_comb begin : calc_next_state
                     next_state = REG_OP;
                     operation = 2'b10;
                 end
-                I_BNEG: begin //precisa de um estado intermediario ou pode ser feito direto aqui
+                I_BNEG: begin 
                     next_state = BUSCA_INSTR;
                     if(neg_op) begin
                         branch = 1'b1;
