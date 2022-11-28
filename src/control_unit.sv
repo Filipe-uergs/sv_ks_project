@@ -109,7 +109,7 @@ always_comb begin : calc_next_state
                     if(neg_op) begin
                         branch = 1'b1;
                         pc_enable = 1'b1;
-                    end
+                    end 
                 end
                 I_BZERO: begin
                     next_state = BUSCA_INSTR;

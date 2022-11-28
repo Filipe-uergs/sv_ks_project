@@ -232,11 +232,11 @@ always_comb begin : ula_ctrl
             sov_f = ov_f ^ carry_in_ultimo_bit;
         end
     endcase
-    
+    assign zero_f = ~|(alu_out);
+    assign neg_f = alu_out[15];
 end
 
-assign zero_f = ~|(alu_out);
-assign neg_f = alu_out[15];
+
 
 always_ff @(posedge clk) begin //flags
     if(flags_reg_enable) begin
@@ -247,5 +247,7 @@ always_ff @(posedge clk) begin //flags
     end
 end
 
+
+assign data_out = bus_a;
 
 endmodule : data_path
