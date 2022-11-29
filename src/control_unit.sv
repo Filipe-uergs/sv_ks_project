@@ -172,7 +172,7 @@ always_comb begin : calc_next_state
         REG_OP : begin
             next_state = BUSCA_INSTR;
             write_reg_enable = 1'b1;
-
+            flags_reg_enable = 1'b1;
             case(decoded_instruction)
                 I_ADD: begin
                     operation = 2'b00;
